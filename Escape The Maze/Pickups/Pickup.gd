@@ -7,6 +7,8 @@ var textures = {
 
 var type
 
+signal coin_pickup
+
 func _ready():
 	$Tween.interpolate_property($Sprite,"scale",Vector2(1,1),Vector2(3,3),
 		0.5,Tween.TRANS_QUAD,Tween.EASE_IN_OUT)
@@ -19,6 +21,12 @@ func init(_type, pos):
 	position = pos
 
 func pickup():
+	match type:
+		"coin":
+			emit_signal("coin_pickup",1)
+			$CoinPickupSound.play()
+		"key_red":
+			$KeyPickupSound.play()
 	$CollisionShape2D.set_deferred("Disabled",true)
 	$Tween.start()
 
