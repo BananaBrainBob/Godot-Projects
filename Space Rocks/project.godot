@@ -14,6 +14,11 @@ config/name="Space Rocks"
 run/main_scene="res://Scenes/Main/Main.tscn"
 config/icon="res://Space-Rocks-Icon.png"
 
+[display]
+
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
