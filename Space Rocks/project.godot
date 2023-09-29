@@ -19,6 +19,10 @@ config/icon="res://Space-Rocks-Icon.png"
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/ridiculous_coding/plugin.cfg" )
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true

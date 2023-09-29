@@ -1,18 +1,18 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scenes/Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Main/space_background.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/Main/Main.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/Rock/Rock.tscn" type="PackedScene" id=4]
 
-[sub_resource type="CircleShape2D" id=2]
-radius = 72.33
-
-[sub_resource type="CircleShape2D" id=1]
-radius = 45.62
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1024, 0, 0, 0, 0, 0, 1024, 600, 0, 0, 0, 0, 0, 600, 0, 0, 0, 0, 0, 0 )
+}
 
 [node name="Main" type="Node"]
 script = ExtResource( 3 )
+rock = ExtResource( 4 )
 
 [node name="Background" type="Sprite" parent="."]
 position = Vector2( 500, 274 )
@@ -21,59 +21,11 @@ texture = ExtResource( 2 )
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 470, 258 )
 
-[node name="Rock" parent="." instance=ExtResource( 4 )]
-position = Vector2( 863, 253 )
-__meta__ = {
-"_edit_group_": true
-}
+[node name="RockPath" type="Path2D" parent="."]
+curve = SubResource( 1 )
 
-[node name="CollisionShape2D" parent="Rock" index="1"]
-shape = SubResource( 2 )
+[node name="RockSpawn" type="PathFollow2D" parent="RockPath"]
 
-[node name="Rock3" parent="." instance=ExtResource( 4 )]
-position = Vector2( 680, 108 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="CollisionShape2D" parent="Rock3" index="1"]
-shape = SubResource( 2 )
-
-[node name="Rock4" parent="." instance=ExtResource( 4 )]
-position = Vector2( 640, 487 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="CollisionShape2D" parent="Rock4" index="1"]
-shape = SubResource( 2 )
-
-[node name="Rock5" parent="." instance=ExtResource( 4 )]
-position = Vector2( 215, 171 )
-rotation = -1.54197
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="CollisionShape2D" parent="Rock5" index="1"]
-shape = SubResource( 2 )
-
-[node name="Rock2" parent="." instance=ExtResource( 4 )]
-position = Vector2( 252, 371 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Sprite" parent="Rock2" index="0"]
-scale = Vector2( 0.64, 0.64 )
-
-[node name="CollisionShape2D" parent="Rock2" index="1"]
-shape = SubResource( 1 )
+[node name="Rocks" type="Node" parent="."]
 
 [connection signal="shoot" from="Player" to="." method="_on_Player_shoot"]
-
-[editable path="Rock"]
-[editable path="Rock3"]
-[editable path="Rock4"]
-[editable path="Rock5"]
-[editable path="Rock2"]
