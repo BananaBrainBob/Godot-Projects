@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/play_button_h.png-1d5840a05ae518fd96e02118aad07f4a.stex"
+path="res://.import/play_button.png-ef51e12253ade8a5d8124301af7e7efc.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/play_button_h.png"
-dest_files=[ "res://.import/play_button_h.png-1d5840a05ae518fd96e02118aad07f4a.stex" ]
+source_file="res://Scenes/HUD/play_button.png"
+dest_files=[ "res://.import/play_button.png-ef51e12253ade8a5d8124301af7e7efc.stex" ]
 
 [params]
 

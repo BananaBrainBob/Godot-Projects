@@ -15,7 +15,7 @@ export var scale_factor : float = 0.2
 #/---variables---
 
 #---custom funcs---
-func start(pos:Vector2 ,vel :Vector2, _size :float):
+func start(pos:Vector2 ,vel :Vector2, _size :float) -> void:
 	position = pos
 	size =_size
 	mass = 1.5*size
@@ -29,7 +29,7 @@ func start(pos:Vector2 ,vel :Vector2, _size :float):
 	$Explosion.scale = Vector2(0.75,0.75) * size
 	
 #/---custom funcs---
-func explode():
+func explode() -> void:
 	$CollisionShape2D.set_deferred("Disabled",true)
 	layers = 0
 	$Sprite.hide()
@@ -38,7 +38,7 @@ func explode():
 	linear_velocity = Vector2()
 	angular_velocity = 0
 	
-func _integrate_forces(physics_state : Physics2DDirectBodyState):
+func _integrate_forces(physics_state : Physics2DDirectBodyState) -> void:
 	var xform = physics_state.get_transform() as Transform2D
 	if xform.origin.x > screensize.x + radius:
 		xform.origin.x = 0 -radius

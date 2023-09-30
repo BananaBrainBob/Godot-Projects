@@ -1,13 +1,16 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scenes/Player/player_ship.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/Bullet/Bullet.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Explosion/Explosion.tscn" type="PackedScene" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 31.0644
 
 [node name="Player" type="RigidBody2D"]
+contacts_reported = 1
+contact_monitor = true
 linear_damp = 1.0
 angular_damp = 5.0
 script = ExtResource( 2 )
@@ -28,4 +31,15 @@ position = Vector2( 50, 0 )
 one_shot = true
 autostart = true
 
+[node name="Explosion" parent="." instance=ExtResource( 4 )]
+
+[node name="InvolnurabilityTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_Player_body_entered"]
 [connection signal="timeout" from="GunTimer" to="." method="_on_GunTimer_timeout"]
+[connection signal="animation_finished" from="Explosion/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="timeout" from="InvolnurabilityTimer" to="." method="_on_InvolnurabilityTimer_timeout"]
+
+[editable path="Explosion"]
