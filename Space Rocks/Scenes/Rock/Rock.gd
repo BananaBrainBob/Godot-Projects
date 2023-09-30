@@ -23,13 +23,14 @@ func start(pos:Vector2 ,vel :Vector2, _size :float):
 	radius = int($Sprite.texture.get_size().x/2 *scale_factor *size)
 	var shape := CircleShape2D.new()
 	shape.radius = radius
-	$CollisionShape2D.shape = shape
+	$CollisionShape2D.set_deferred("shape",shape)
 	linear_velocity = vel
 	angular_velocity = rand_range(-1.5,1.5)
 	$Explosion.scale = Vector2(0.75,0.75) * size
 	
 #/---custom funcs---
 func explode():
+	$CollisionShape2D.set_deferred("Disabled",true)
 	layers = 0
 	$Sprite.hide()
 	$Explosion/AnimationPlayer.play("Explosion")
@@ -50,5 +51,5 @@ func _integrate_forces(physics_state : Physics2DDirectBodyState):
 	physics_state.set_transform(xform)
 
 
-func _on_AnimationPlayer_animation_finished(anim_name):
+func _on_AnimationPlayer_animation_finished(_anim_name):
 	queue_free()

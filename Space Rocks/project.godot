@@ -14,6 +14,10 @@ config/name="Space Rocks"
 run/main_scene="res://Scenes/Main/Main.tscn"
 config/icon="res://Space-Rocks-Icon.png"
 
+[debug]
+
+settings/stdout/print_fps=true
+
 [display]
 
 window/stretch/mode="viewport"
