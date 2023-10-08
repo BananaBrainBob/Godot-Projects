@@ -56,12 +56,18 @@ func _integrate_forces(physics_state : Physics2DDirectBodyState) -> void:
 
 func get_input() -> void:
 	thrust = Vector2()
+	$Exahust.emitting = false
 	rotation_dir = 0
 	
 	if state in [States.DEAD,States.INIT]:
 		return
 	if Input.is_action_pressed("thrust"):
+		$Exahust.emitting = true
 		thrust = Vector2(engine_power,0)
+		if not $EngineSound.playing:
+			$EngineSound.play()
+	else:
+		$EngineSound.stop()
 	if Input.is_action_pressed("rotate_left"):
 		rotation_dir -= 1
 	if Input.is_action_pressed("rotate_right"):

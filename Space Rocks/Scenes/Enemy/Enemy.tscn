@@ -1,11 +1,87 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scenes/Enemy/enemy_saucer.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/Enemy/Enemy.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/Explosion/Explosion.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/EmptyPathes/EmptyPathes.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/EnemyBullet/EnemyBullet.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/sounds/synthetic_thunder_short.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/corona.png" type="Texture" id=7]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 36.0
 
-[node name="Enemy" type="Area2D"]
+[sub_resource type="Animation" id=2]
+resource_name = "Flash"
+length = 0.25
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.04, 0.08, 0.12, 0.16, 0.2, 0.24 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "Rotate"
+length = 3.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 360.0 ]
+}
+
+[sub_resource type="CanvasItemMaterial" id=6]
+blend_mode = 1
+
+[sub_resource type="Curve" id=7]
+_data = [ Vector2( 0, 0.0910133 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[node name="Enemy" type="Area2D" groups=["enemies"]]
+script = ExtResource( 2 )
+bullet = ExtResource( 5 )
+speed = 50
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
@@ -13,3 +89,37 @@ hframes = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Flash = SubResource( 2 )
+anims/RESET = SubResource( 4 )
+anims/Rotate = SubResource( 3 )
+
+[node name="Explosion" parent="." instance=ExtResource( 3 )]
+
+[node name="GunTimer" type="Timer" parent="."]
+wait_time = 1.5
+autostart = true
+
+[node name="EmptyPathes" parent="." instance=ExtResource( 4 )]
+
+[node name="ExplodeSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
+
+[node name="Particles2D" type="CPUParticles2D" parent="."]
+show_behind_parent = true
+material = SubResource( 6 )
+amount = 20
+local_coords = false
+texture = ExtResource( 7 )
+emission_shape = 2
+emission_rect_extents = Vector2( 25, 25 )
+spread = 25.0
+gravity = Vector2( 0, 0 )
+scale_amount_curve = SubResource( 7 )
+
+[connection signal="body_entered" from="." to="." method="_on_Enemy_body_entered"]
+[connection signal="animation_finished" from="Explosion/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="timeout" from="GunTimer" to="." method="_on_GunTimer_timeout"]
+
+[editable path="Explosion"]

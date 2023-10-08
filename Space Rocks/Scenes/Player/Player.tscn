@@ -1,12 +1,19 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scenes/Player/player_ship.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/Bullet/Bullet.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Explosion/Explosion.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/sounds/flight_sound.ogg" type="AudioStream" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 31.0644
+
+[sub_resource type="Curve" id=5]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=3]
+colors = PoolColorArray( 0.878906, 0.504953, 0.024156, 1, 0.585938, 0.113967, 0.113967, 1 )
 
 [node name="Player" type="RigidBody2D"]
 contacts_reported = 1
@@ -36,6 +43,25 @@ autostart = true
 [node name="InvolnurabilityTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
+
+[node name="EngineSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
+
+[node name="Exahust" type="CPUParticles2D" parent="."]
+show_behind_parent = true
+position = Vector2( -28, 0 )
+rotation = 3.14159
+amount = 25
+lifetime = 0.1
+local_coords = false
+emission_shape = 2
+emission_rect_extents = Vector2( 1, 5 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 400.0
+scale_amount = 8.0
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 3 )
 
 [connection signal="body_entered" from="." to="." method="_on_Player_body_entered"]
 [connection signal="timeout" from="GunTimer" to="." method="_on_GunTimer_timeout"]

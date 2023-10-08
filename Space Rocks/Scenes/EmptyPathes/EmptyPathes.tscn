@@ -18,10 +18,16 @@ _data = {
 [node name="EmptyPathes" type="Node"]
 
 [node name="Path2D" type="Path2D" parent="."]
+position = Vector2( 33.734, 112 )
+scale = Vector2( 0.684729, 0.916667 )
 curve = SubResource( 1 )
 
 [node name="Path2D2" type="Path2D" parent="."]
+position = Vector2( 105.732, 136.48 )
+scale = Vector2( 0.853503, 0.81 )
 curve = SubResource( 2 )
 
 [node name="Path2D3" type="Path2D" parent="."]
+position = Vector2( 88.7423, -18.4842 )
+scale = Vector2( 0.695876, 0.541517 )
 curve = SubResource( 3 )
